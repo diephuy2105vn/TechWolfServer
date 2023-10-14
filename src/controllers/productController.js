@@ -10,13 +10,13 @@ const productController = {
                 throw new Error();
             }
             product.urlImages = req.files.map((file) => file.path);
-            product.createIndex({ name: "text", description: "text" });
+
             await product.save();
             res.status(200).json({
                 success: "Create product successfully!",
-                data: product,
             });
         } catch (err) {
+            console.log(err);
             res.status(404).json({ error: "Create product failed!" });
         }
     },
@@ -56,7 +56,6 @@ const productController = {
     },
     destroyMultiple: async function (req, res, next) {
         try {
-            console.log(req.body.ids);
             const ids = req.body.ids;
             const result = await Product.deleteMany({ _id: { $in: ids } });
             if (!result) {

@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import Cart from "./cart";
+import Profile from "./profile";
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
@@ -17,6 +19,31 @@ const UserSchema = new Schema({
         type: Number,
         default: 1,
     },
+});
+
+UserSchema.pre(
+    "deleteOne",
+    { document: true, query: true },
+    async function (next) {
+        const user = this;
+        await Cart.deleteOne({ user: user._id });
+        await Profile.deleteOne({ user: user._id });
+        next();
+    }
+);
+
+UserSchema.pre("save", async function (next) {
+    const user = this;
+
+    if (user.isNew) {
+        const profile = new Profile({ user: user._id });
+        const cart = new Cart({ user: user._id });
+
+        await profile.save();
+        await cart.save();
+    }
+
+    next();
 });
 
 const User = mongoose.model("User", UserSchema);

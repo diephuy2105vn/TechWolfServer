@@ -29,11 +29,9 @@ const authController = {
                 return;
             }
             const userNew = await new User(account);
-            const cartNew = await new Cart({ user: userNew._id });
             const salt = await bcrypt.genSalt(10);
             userNew.password = await bcrypt.hash(userNew.password, salt);
             await userNew.save();
-            await cartNew.save();
             res.status(200).json({
                 status: "Success",
                 data: "Tạo tài khoản thành công",
@@ -198,7 +196,6 @@ const authController = {
                     return;
                 }
                 const userNew = await new User(userReq);
-                const cartNew = await new Cart({ user: userNew._id });
                 const refreshToken = await authService.generateToken(
                     userNew,
                     refreshTokenSecret,
@@ -210,7 +207,6 @@ const authController = {
                     accessToken: accessToken,
                 });
                 await userNew.save();
-                await cartNew.save();
                 await tokenNew.save();
                 res.cookie("refreshToken", refreshToken, {
                     httpOnly: true,
