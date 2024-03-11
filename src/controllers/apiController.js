@@ -46,7 +46,7 @@ const apiController = {
                 .skip((page - 1) * SIZEPAGE)
                 .limit(SIZEPAGE)
                 .lean();
-
+            console.log(totalDocument / SIZEPAGE);
             res.json({
                 status: "Success",
                 totalPage: Math.ceil(totalDocument / SIZEPAGE),

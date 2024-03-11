@@ -4,9 +4,7 @@ const apiController = {
     getCart: async function (req, res, next) {
         try {
             const userId = req.params.id;
-            console.log(userId);
             const cart = await cartService.getCart(userId);
-            console.log(cart);
             res.status(200).json({ status: "Success", data: cart });
         } catch (err) {
             res.status(500).json({

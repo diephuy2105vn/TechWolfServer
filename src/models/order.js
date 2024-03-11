@@ -10,7 +10,6 @@ const OrderSchema = new Schema(
         user: {
             type: ObjectId,
             ref: "User",
-            require: true,
         },
         details: [{ type: ObjectId, ref: "Detail" }],
         payment: { type: String, required: true },

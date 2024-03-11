@@ -5,6 +5,7 @@ const TokenSchema = new Schema({
     user: {
         type: ObjectId,
         ref: "User",
+        required: true,
     },
     accessToken: {
         type: String,

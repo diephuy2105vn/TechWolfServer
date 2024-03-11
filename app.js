@@ -26,7 +26,11 @@ app.use(
         origin: [
             "http://127.0.0.1:3000",
             "http://localhost:3000",
+            "http://localhost:8081",
+            "http://192.168.1.72:8081",
             "http://192.168.0.115:3000",
+            "http://172.20.10.3:8081",
+            "http://10.13.130.154:8081",
         ], // chỉ cho phép truy cập từ domain này []
         credentials: true,
         methods: ["GET", "POST", "PUT", "PATCH", "DELETE"], // chỉ cho phép sử dụng các phương thức này

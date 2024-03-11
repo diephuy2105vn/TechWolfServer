@@ -17,6 +17,14 @@ const authController = {
                 username: req.body.username.toLowerCase(),
                 password: req.body.password,
             };
+            const refreshToken = req.cookies["refreshToken"];
+
+            if (refreshToken) {
+                const verifyToken = await authService.verifyToken(refreshToken);
+                if (verifyToken.data.role >= 3) {
+                    account.role = req.body.role;
+                }
+            }
 
             const user = await User.findOne({
                 username: account.username,

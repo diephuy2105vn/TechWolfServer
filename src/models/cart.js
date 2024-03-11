@@ -26,14 +26,20 @@ CartSchema.pre(
     "deleteOne",
     { document: true, query: true },
     async function (next) {
-        const order = this;
+        try {
+            const cart = Object(this);
 
-        await Promise.all(
-            order.details.map(async (detail) => {
-                await Detail.findByIdAndRemove(detail._id);
-            })
-        );
-        next();
+            if (cart.details?.length > 0) {
+                await Promise.all(
+                    cart.details?.map(async (detail) => {
+                        await Detail.findByIdAndRemove(detail._id);
+                    })
+                );
+            }
+            next();
+        } catch (err) {
+            console.log(err);
+        }
     }
 );
 
